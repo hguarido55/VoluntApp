@@ -1,0 +1,49 @@
+﻿@model List<VoluntApp.Models.Voluntariado>
+@{
+    ViewData["Title"] = "Gestión de Actividades";
+}
+
+<h2>Gestión de Actividades</h2>
+
+<p>Rol en sesión: @Context.Session.GetString("Rol")</p>
+
+<a class="btn btn-success mb-3" href="/Actividad/Crear">Crear Nueva Actividad</a>
+
+@if (!Model.Any())
+{
+    <div class="alert alert-info">No has publicado ninguna actividad aún.</div>
+}
+else
+{
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>Título</th>
+                <th>Descripción</th>
+                <th>Ubicación</th>
+                <th>Fecha Inicio</th>
+                <th>Fecha Fin</th>
+                <th>Estado</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var act in Model)
+            {
+                <tr>
+                    <td>@act.Tipo</td>
+                    <td>@act.Descripcion</td>
+                    <td>@act.Ubicacion</td>
+                    <td>@act.FechaInicio.ToShortDateString()</td>
+                    <td>@act.FechaFin.ToShortDateString()</td>
+                    <td>@act.Estado</td>
+                    <td>
+                        <a href="/Actividades/Editar/@act.Id" class="btn btn-sm btn-warning">Editar</a>
+                        <a href="/Actividades/Eliminar/@act.Id" class="btn btn-sm btn-danger"
+                           onclick="return confirm('¿Estás seguro de que deseas eliminar esta actividad?');">Eliminar</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}

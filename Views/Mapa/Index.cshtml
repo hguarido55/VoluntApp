@@ -1,0 +1,57 @@
+﻿@using System.Text.Json
+
+@{
+    ViewData["Title"] = "Mapa de Actividades";
+}
+
+<h2>Mapa de Actividades</h2>
+
+<!-- Contenedor del mapa -->
+<div id="map" style="height: 500px; width: 100%;" class="mb-4"></div>
+
+@section Scripts {
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+
+    <script>
+        function initMap() {
+            const map = L.map('map').setView([40.4168, -3.7038], 6);
+
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                attribution: '&copy; OpenStreetMap contributors'
+            }).addTo(map);
+
+            var actividades = @Html.Raw(JsonSerializer.Serialize(ViewBag.Actividades));
+
+            // Deserializa las actividades desde ViewBag
+            var actividades = @Html.Raw(System.Text.Json.JsonSerializer.Serialize(ViewBag.Actividades));
+
+            var bounds = [];
+
+            actividades.forEach(function (actividad) {
+                if (actividad.latitud && actividad.longitud) {
+                    var marker = L.marker([actividad.latitud, actividad.longitud]).addTo(map);
+
+                    var popupHtml = `
+                                <strong>${actividad.tipo}</strong><br/>
+                                ${actividad.descripcion}<br/>
+                                <em>${new Date(actividad.fechaInicio).toLocaleDateString()}</em><br/>
+                                ${actividad.ubicacion}
+                            `;
+
+                    marker.bindPopup(popupHtml);
+                    bounds.push([actividad.latitud, actividad.longitud]);
+                }
+            });
+
+            if (bounds.length > 0) {
+                map.fitBounds(bounds, { padding: [20, 20] });
+            }
+        }
+
+        window.onload = initMap;
+    </script>
+}
+
+
+

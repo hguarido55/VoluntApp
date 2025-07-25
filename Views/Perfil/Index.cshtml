@@ -1,0 +1,55 @@
+﻿@model VoluntApp.Models.PerfilViewModel
+
+@{
+    ViewData["Title"] = "Mi Perfil";
+}
+
+<h2>Mi Perfil</h2>
+
+<h2>@Model.Usuario.Nombre</h2>
+<p>Email: @Model.Usuario.Email</p>
+<p>Horas registradas: @Model.Usuario.HorasRegistradas</p>
+
+<ul>
+    @foreach (var act in Model.Actividades)
+    {
+        <li>@act.Tipo - @act.FechaInicio.ToShortDateString()</li>
+    }
+</ul>
+
+<div class="card mb-4">
+    <div class="card-body">
+        <h4 class="card-title">@Model.Nombre</h4>
+        <p><strong>Email:</strong> @Model.Email</p>
+        <p><strong>Horas de voluntariado:</strong> @Model.TotalHoras</p>
+
+        <form method="get" action="/Perfil/GenerarPDF" target="_blank">
+            <button type="submit" class="btn btn-secondary">Generar Reporte PDF</button>
+        </form>
+    </div>
+</div>
+
+<h3>Actividades Inscritas</h3>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Nombre</th>
+            <th>Fecha</th>
+            <th>Ubicación</th>
+            <th>Horas</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var actividad in Model.Actividades)
+        {
+            <tr>
+                <td>@actividad.Tipo</td>
+                <td>@actividad.FechaInicio.ToShortDateString()</td>
+                <td>@actividad.Ubicacion</td>
+                <td>@actividad.Plazas</td>
+            </tr>
+        }
+    </tbody>
+</table>
+
