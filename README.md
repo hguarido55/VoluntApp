@@ -39,6 +39,12 @@
 
 ---
 
+## 🗄️ Base de Datos
+
+El repositorio incluye un script esquema_voluntariado.sql que permite crear fácilmente las tablas necesarias en tu propio servidor MySQL local. Puedes usar XAMPP para iniciar MySQL y luego importar el script desde phpMyAdmin o cualquier cliente de base de datos compatible.
+
+---
+
 ## 📘 Memoria del Proyecto
 
 Se incluye un archivo `Memoria_VoluntApp.pdf` en el repositorio que contiene:
